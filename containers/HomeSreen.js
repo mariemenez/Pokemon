@@ -4,37 +4,21 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 import style from "../style";
+import useFetch from "../hooks/useFetch";
 
 const HomeScreen = () => {
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon/?limit=100`
-        );
-        setData(response.data);
-        setIsLoading(false);
-        // console.log(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchData();
-  }, []);
+  const [data, isLoading] = useFetch(
+    `https://pokeapi.co/api/v2/pokemon/?limit=100`
+  );
 
   return isLoading ? (
-    <View>
-      <Text>ça charge</Text>
-    </View>
+    <ActivityIndicator />
   ) : (
     <SafeAreaView style={style.container}>
       <Text>LA LISTE DES POKEMON</Text>

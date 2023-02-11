@@ -6,6 +6,7 @@ export default StyleSheet.create({
   },
   pokeView: {
     borderColor: "black",
+    backgroundColor: "lightgreen",
     borderWidth: 1,
     margin: 2,
     height: 50,

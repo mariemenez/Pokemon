@@ -1,34 +1,21 @@
-import { View, Text, SafeAreaView, Image } from "react-native";
-import { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { useRoute } from "@react-navigation/native";
-import axios from "axios";
 import style from "../style";
+import useFetch from "../hooks/useFetch";
 
 const PokeScreen = () => {
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
   const { params } = useRoute();
-
   const id = params.pokeId;
-  //   console.log(id);
+  const [data, isLoading] = useFetch(id);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(id);
-        setData(response.data);
-        setIsLoading(false);
-        // console.log(response.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchData();
-  }, []);
   return isLoading ? (
-    <View>
-      <Text>ça charge</Text>
-    </View>
+    <ActivityIndicator />
   ) : (
     <SafeAreaView>
       <Text>{data.name}</Text>
